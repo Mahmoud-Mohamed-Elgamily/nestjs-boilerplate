@@ -1,0 +1,46 @@
+version: '3.8'
+
+services:
+  mysql-db:
+    container_name: mysql-db
+    image: mysql:8.0
+    restart: unless-stopped
+    env_file: ./.env
+    environment:
+      MYSQL_ROOT_PASSWORD: $MYSQLDB_PASSWORD
+    ports:
+      - $MYSQLDB_LOCAL_PORT:$MYSQLDB_DOCKER_PORT
+    volumes:
+      - mysql-volume:/var/lib/mysql:rw
+      - ./mysql-db:/docker-entrypoint-initdb.d/
+    networks:
+      - default
+
+  nestjs-app:
+    container_name: nestjs-app
+    depends_on:
+      - mysql-db
+    build: ../
+    restart: unless-stopped
+    env_file: ./.env
+    ports:
+      - $NESTJS_APP_LOCAL_PORT:$NESTJS_APP_DOCKER_PORT
+    environment:
+      - DB_HOST=$MYSQLDB_HOST
+      - DB_USER=$MYSQLDB_USER
+      - DB_PASS=$MYSQLDB_PASSWORD
+      - DB_NAME=$MYSQLDB_DATABASE
+      - DB_PORT=$MYSQLDB_DOCKER_PORT
+    stdin_open: true
+    tty: true
+    volumes:
+      - ../:/usr/app
+      - /app/node_modules
+    networks:
+      - default
+
+volumes:
+  mysql-volume:
+
+networks:
+  default:
