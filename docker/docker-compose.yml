@@ -8,13 +8,12 @@ services:
     env_file: ./.env
     environment:
       MYSQL_ROOT_PASSWORD: $MYSQLDB_PASSWORD
+      MYSQL_DATABASE: $MYSQLDB_DATABASE
     ports:
       - $MYSQLDB_LOCAL_PORT:$MYSQLDB_DOCKER_PORT
     volumes:
       - mysql-volume:/var/lib/mysql:rw
-      - ./mysql-db:/docker-entrypoint-initdb.d/
-    networks:
-      - default
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
 
   nestjs-app:
     container_name: nestjs-app
@@ -26,21 +25,16 @@ services:
     ports:
       - $NESTJS_APP_LOCAL_PORT:$NESTJS_APP_DOCKER_PORT
     environment:
-      - DB_HOST=$MYSQLDB_HOST
-      - DB_USER=$MYSQLDB_USER
-      - DB_PASS=$MYSQLDB_PASSWORD
-      - DB_NAME=$MYSQLDB_DATABASE
-      - DB_PORT=$MYSQLDB_DOCKER_PORT
+      DB_HOST: mysql-db
+      DB_USER: $MYSQLDB_USER
+      DB_PASS: $MYSQLDB_PASSWORD
+      DB_NAME: $MYSQLDB_DATABASE
+      DB_PORT: $MYSQLDB_DOCKER_PORT
     stdin_open: true
     tty: true
     volumes:
       - ../:/usr/app
       - /app/node_modules
-    networks:
-      - default
 
 volumes:
   mysql-volume:
-
-networks:
-  default:
