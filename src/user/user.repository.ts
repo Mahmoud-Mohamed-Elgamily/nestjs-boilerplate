@@ -8,9 +8,5 @@ export class UserRepository extends Repository<User> {
     super(User, dataSource.createEntityManager());
   }
 
-  async findaaa() {
-    return await this.find();
-  }
-
   //write other helpful methods here(find, delete, etc...)
 }
