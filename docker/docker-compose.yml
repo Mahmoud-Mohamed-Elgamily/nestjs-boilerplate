@@ -19,7 +19,9 @@ services:
     container_name: nestjs-app
     depends_on:
       - mysql-db
-    build: ../
+    build:
+      context: ../
+      dockerfile: docker/dockerfile
     restart: unless-stopped
     env_file: ./.env
     ports:
@@ -30,10 +32,8 @@ services:
       DB_PASS: $MYSQLDB_PASSWORD
       DB_NAME: $MYSQLDB_DATABASE
       DB_PORT: $MYSQLDB_DOCKER_PORT
-    stdin_open: true
-    tty: true
     volumes:
-      - ../:/usr/app
+      - ../:/app
       - /app/node_modules
 
 volumes:
