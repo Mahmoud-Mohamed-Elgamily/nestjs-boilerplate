@@ -26,6 +26,7 @@ services:
     env_file: ./.env
     ports:
       - $NESTJS_APP_LOCAL_PORT:$NESTJS_APP_DOCKER_PORT
+      - 9229:9229
     environment:
       DB_HOST: mysql-db
       DB_USER: $MYSQLDB_USER
