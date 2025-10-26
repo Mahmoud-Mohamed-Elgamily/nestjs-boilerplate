@@ -9,6 +9,6 @@ import { ormConfig } from 'config/typeorm.config';
   imports: [TypeOrmModule.forRoot(ormConfig), UserModule],
 
   controllers: [AppController],
-  providers: [CrudService],
+  providers: [],
 })
 export class AppModule {}

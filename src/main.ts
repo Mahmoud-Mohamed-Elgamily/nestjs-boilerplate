@@ -17,7 +17,7 @@ async function bootstrap() {
     SwaggerModule.setup('api', app, document);
   }
 
-  await app.listen(process.env.NESTJS_APP_LOCAL_PORT);
-  console.log(`listining on port ${process.env.NESTJS_APP_LOCAL_PORT}`);
+  await app.listen(process.env.NESTJS_APP_LOCAL_PORT || 3000);
+  console.log(`listining on port ${process.env.NESTJS_APP_LOCAL_PORT || 3000}`);
 }
 bootstrap();
