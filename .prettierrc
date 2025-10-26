@@ -1,4 +1,35 @@
+// ...existing code...
 {
   "singleQuote": true,
-  "trailingComma": "all"
+  "trailingComma": "all",
+  "arrowParens": "always",
+  "tabWidth": 2,
+  "printWidth": 100,
+  "semi": true,
+  "bracketSpacing": true,
+  "endOfLine": "lf",
+  "jsxSingleQuote": false,
+  "jsxBracketSameLine": false,
+  "overrides": [
+    {
+      "files": ["*.ts", "*.tsx"],
+      "options": {
+        "parser": "typescript"
+      }
+    },
+    {
+      "files": ["*.js", "*.cjs", "*.mjs"],
+      "options": {
+        "parser": "babel"
+      }
+    }
+  ],
+  "importOrder": [
+    "^@nestjs/(.*)$",
+    "^@/(.*)$",
+    "<THIRD_PARTY_MODULES>",
+    "^[./]"
+  ],
+  "importOrderSeparation": true,
+  "importOrderSortSpecifiers": true
 }
