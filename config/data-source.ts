@@ -5,7 +5,7 @@ import { join } from 'path';
 dotenv.config();
 
 export default new DataSource({
-  type: 'mysql',
+  type: 'postgres',
   host: process.env.DB_HOST,
   port: +process.env.DB_PORT,
   username: process.env.DB_USER,
@@ -16,4 +16,4 @@ export default new DataSource({
   synchronize: false,
   migrationsRun: true,
   logging: true,
-}); 
+});

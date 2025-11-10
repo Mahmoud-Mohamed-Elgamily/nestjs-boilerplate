@@ -1,12 +1,8 @@
-import { Controller, Get } from '@nestjs/common';
-import { CrudService } from './crud.service';
+import { Controller } from '@nestjs/common';
+import { ApiTags } from '@nestjs/swagger';
 
+@ApiTags('App')
 @Controller()
 export class AppController {
   constructor() {}
-
-  @Get()
-  getHello(): string {
-    return "Hello World!";
-  }
 }

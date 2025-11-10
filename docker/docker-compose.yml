@@ -1,41 +1,41 @@
-version: '3.8'
-
 services:
-  mysql-db:
-    container_name: mysql-db
-    image: mysql:8.0
+  postgres-db:
+    container_name: postgres-db
+    image: postgres:15-alpine
     restart: unless-stopped
     env_file: ./.env
     environment:
-      MYSQL_ROOT_PASSWORD: $MYSQLDB_PASSWORD
-      MYSQL_DATABASE: $MYSQLDB_DATABASE
+      POSTGRES_PASSWORD: $POSTGRESDB_PASSWORD
+      POSTGRES_DB: $POSTGRESDB_DATABASE
+      POSTGRES_USER: $POSTGRESDB_USER
     ports:
-      - $MYSQLDB_LOCAL_PORT:$MYSQLDB_DOCKER_PORT
+      - $POSTGRESDB_LOCAL_PORT:$POSTGRESDB_DOCKER_PORT
     volumes:
-      - mysql-volume:/var/lib/mysql:rw
+      - postgres-volume:/var/lib/postgresql/data:rw
       - ./init.sql:/docker-entrypoint-initdb.d/init.sql
 
   nestjs-app:
     container_name: nestjs-app
     depends_on:
-      - mysql-db
+      - postgres-db
     build:
       context: ../
       dockerfile: docker/dockerfile
     restart: unless-stopped
     env_file: ./.env
+    command: ["sh", "-c", "npm install && npm start"]
     ports:
       - $NESTJS_APP_LOCAL_PORT:$NESTJS_APP_DOCKER_PORT
       - 9229:9229
     environment:
-      DB_HOST: mysql-db
-      DB_USER: $MYSQLDB_USER
-      DB_PASS: $MYSQLDB_PASSWORD
-      DB_NAME: $MYSQLDB_DATABASE
-      DB_PORT: $MYSQLDB_DOCKER_PORT
+      DB_HOST: postgres-db
+      DB_USER: $POSTGRESDB_USER
+      DB_PASS: $POSTGRESDB_PASSWORD
+      DB_NAME: $POSTGRESDB_DATABASE
+      DB_PORT: $POSTGRESDB_DOCKER_PORT
     volumes:
       - ../:/app
       - /app/node_modules
 
 volumes:
-  mysql-volume:
+  postgres-volume:

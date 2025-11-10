@@ -17,7 +17,13 @@
     "test:watch": "jest --watch",
     "test:cov": "jest --coverage",
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
-    "test:e2e": "jest --config ./test/jest-e2e.json"
+    "test:e2e": "jest --config ./test/jest-e2e.json",
+    "typeorm": "ts-node -r tsconfig-paths/register ./node_modules/typeorm/cli.js",
+    "migration:generate": "npm run typeorm -- migration:generate -d config/data-source.ts",
+    "migration:create": "npm run typeorm -- migration:create",
+    "migration:run": "npm run typeorm -- migration:run -d config/data-source.ts",
+    "migration:revert": "npm run typeorm -- migration:revert -d config/data-source.ts",
+    "migration:show": "npm run typeorm -- migration:show -d config/data-source.ts"
   },
   "dependencies": {
     "@nestjs/common": "^11.1.7",
@@ -31,6 +37,7 @@
     "@nestjs/platform-socket.io": "^11.1.7",
     "@nestjs/serve-static": "^5.0.4",
     "@nestjs/swagger": "^11.2.1",
+    "@nestjs/throttler": "^6.2.1",
     "@nestjs/typeorm": "^11.0.0",
     "@nestjs/websockets": "^11.1.7",
     "@types/bcrypt": "^6.0.0",
@@ -40,14 +47,17 @@
     "class-transformer": "^0.5.1",
     "class-validator": "^0.14.2",
     "express": "^5.1.0",
+    "helmet": "^8.0.0",
     "multer": "^2.0.2",
-    "mysql2": "^3.15.3",
+    "nest-winston": "^1.10.0",
     "passport": "^0.7.0",
     "passport-jwt": "^4.0.1",
+    "pg": "^8.16.3",
     "reflect-metadata": "^0.2.2",
     "rxjs": "^7.8.2",
     "socket.io": "^4.8.1",
-    "typeorm": "^0.3.27"
+    "typeorm": "^0.3.27",
+    "winston": "^3.17.0"
   },
   "devDependencies": {
     "@nestjs/cli": "^11.0.10",
